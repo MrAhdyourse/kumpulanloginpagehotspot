@@ -1,0 +1,108 @@
+<html>
+<head>
+<title id="title"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+<link rel="stylesheet" href="css/desa-digital.css">
+<link rel="icon" href="img/favicon.png" />
+</head>
+
+<body>
+<script language="JavaScript">
+<!--
+    function openLogin() {
+	if (window.name != 'hotspot_logout') return true;
+	open('$(link-login)', '_blank', '');
+	window.close();
+	return false;
+    }
+    function readablizeBytes(bytes) {
+		var s = ['bytes', 'kb', 'MB', 'GB', 'TB', 'PB'];
+		var e = Math.floor(Math.log(bytes)/Math.log(1024));
+		return (bytes/Math.pow(1024, Math.floor(e))).toFixed(2)+" "+s[e];
+	}
+//-->
+</script>
+
+<div class="container">
+		<div class="row mt-10">
+			<div class="col-8 mr-a box-semua" id="main" style="float:none;">
+				<div class="row">
+    				<div class="col-4">
+    					<div class="card">
+    						<div class="logoutt">
+								 <h3 style="color:#efefef;text-align:center;margin-top:15px;">Terima Kasih</h3>
+								<div class="boxs" style="color:#54d8ff;"><h2>ANDA TELAH LOGOUT</h2></div> 
+  								<table class="table table-bordered mr-b-10" align="center">
+								    <tr class="warna">
+								      <td align="left" style="width: 35%;">User</td>
+								      <td>$(username)</td>
+								    </tr>
+								    <tr>
+								      <td align="left">IP Address</td>
+								      <td>$(ip)</td>
+								    </tr>
+								    <tr class="warna">
+								      <td align="left">MAC</td>
+								      <td>$(mac)</td>
+ 								   </tr>
+ 								   <tr>
+								      <td align="left">UL | DL</td>
+ 								      <td>$(bytes-in-nice) | $(bytes-out-nice)</td>
+								    </tr>
+    								<tr class="warna">
+      								  <td align="left">Aktif</td>
+								      <td>$(uptime)</td>
+								    </tr>
+								    $(if remain-bytes-total)
+								    <tr>
+								      <td align="left">Sisa Kuota</td>
+								      <td><script language="JavaScript">document.write(readablizeBytes($(remain-bytes-total)));</script></td>
+								    </tr>
+								    $(endif)
+								    $(if session-time-left)
+								    <tr class="warna">
+									  <td align="left">Sisa Waktu</td>
+								      <td>$(session-time-left)</td>
+    								</tr>
+    								$(endif)
+  								</table>
+  								<div class="mr-b-10">
+    							<form action="$(link-login)" name="login" onSubmit="return openLogin()">
+      								<button type="submit" class="btn-md w-12 bg-login pd-5">LOGIN KEMBALI</button>
+    							</form>
+    						</div>
+							</div>
+						</div>
+					</div>
+<div class="col-8">
+	<div class="row">
+		<div class="carousel slide" data-ride="carousel" data-interval="3000">
+		  <div class="carousel-inner radius19">
+		    <div class="carousel-item active">
+		      <img class="d-block w-100" style="width:100%; max-width: 607px; height:auto;" src="img/slider-1.jpg" alt="First slide">
+		    </div>
+		    <div class="carousel-item">
+		      <img class="d-block w-100" style="width:100%; max-width: 607px; height:auto;" src="img/slider-2.jpg" alt="Second slide">
+		    </div>
+		    <div class="carousel-item">
+		      <img class="d-block w-100" style="width:100%; max-width: 607px; height:auto;" src="img/slider-3.jpg" alt="Third slide">
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<div id="desa-digital"></div>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="js/desa-digital.js"></script>
+<script type="text/javascript">
+	document.getElementById('title').innerHTML = window.location.hostname + " > logout";
+</script>
+<script src="js/slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

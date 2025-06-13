@@ -1,0 +1,2 @@
+Sep/09/2023 19:30:43 hotspot,info,debug ->: Warung pelangi kasih (30.30.30.242): trying to log in by http-chap
+Sep/09/2023 19:30:45 hotspot,info,debug ->: Warung pelangi kasih (30.30.30.242): login failed: invalid username or password
