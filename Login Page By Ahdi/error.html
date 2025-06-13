@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACCESS DENIED | SMK NU Indramayu</title>
+  <meta name="theme-color" content="#070c1f">
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Montserrat:700,600,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --neon-green: #39ff14;
+      --neon-pink: #ff2cff;
+      --neon-cyan: #25f4ee;
+      --bg-dark: #070c1f;
+      --bg-glow: #0e1833;
+      --glitch-red: #fe2c55;
+      --glitch-cyan: #25f4ee;
+      --txt-light: #e0e0e0;
+    }
+    body {
+      background: var(--bg-dark);
+      color: var(--txt-light);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Share Tech Mono', 'Consolas', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      transition: background 0.5s;
+    }
+    .glow-bg {
+      position: fixed;
+      width: 100vw; height: 100vh;
+      top: 0; left: 0; z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 30%, #25f4ee33 0%, #070c1f 80%);
+      opacity: 0.78;
+      mix-blend-mode: lighten;
+    }
+    .hacker-terminal {
+      background: #151a2b;
+      box-shadow: 0 0 48px #25f4ee44, 0 0 12px #39ff1444;
+      border-radius: 20px;
+      padding: 38px 28px 24px 28px;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      border: 2px solid #39ff14;
+      animation: pulseGlow 2.5s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 48px #25f4ee44, 0 0 12px #39ff1444;}
+      to { box-shadow: 0 0 68px #fe2c5599, 0 0 22px #39ff14;}
+    }
+    .glitch {
+      font-size: 3.7rem;
+      font-weight: 900;
+      letter-spacing: 5px;
+      color: #39ff14;
+      position: relative;
+      margin-bottom: 9px;
+      text-shadow: 0 0 18px #25f4ee, 0 0 3px #fff;
+      animation: glitch 1.2s infinite linear alternate;
+      user-select: none;
+    }
+    @keyframes glitch {
+      0% {text-shadow: 2px 0 #fe2c55, -2px 0 #25f4ee;}
+      19%{text-shadow: 2px 0 #fe2c55, -2px 0 #25f4ee;}
+      20%{text-shadow: -4px -1px #25f4ee, 4px 1px #fe2c55;}
+      49%{text-shadow: -4px -1px #25f4ee, 4px 1px #fe2c55;}
+      50%{text-shadow: 2px 2px #fe2c55, -2px -2px #25f4ee;}
+      99%{text-shadow: 2px 2px #fe2c55, -2px -2px #25f4ee;}
+      100%{text-shadow: 0 0 18px #25f4ee, 0 0 3px #fff;}
+    }
+    .hacker-code {
+      color: var(--neon-cyan);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 5px #25f4ee88;
+      user-select: none;
+      animation: blinkCode 1.4s infinite step-end;
+    }
+    @keyframes blinkCode {
+      0%, 100% { opacity: 1;}
+      45% { opacity: 0.6;}
+      70% { opacity: 0.3;}
+    }
+    .hacker-desc {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: #e0e0e0;
+      text-align: center;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', monospace;
+      animation: fadeIn .8s 1s backwards;
+    }
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    .fake-terminal {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.09rem;
+      color: #25f4ee;
+      background: #0e1833;
+      border-radius: 9px;
+      padding: 15px 20px;
+      margin-bottom: 13px;
+      min-height: 49px;
+      box-shadow: 0 2px 8px #25f4ee22;
+      letter-spacing: 0.9px;
+      position: relative;
+    }
+    .typed-cursor {
+      display: inline-block;
+      width: 11px;
+      color: #fe2c55;
+      background: transparent;
+      animation: blink 1.1s infinite steps(1);
+    }
+    @keyframes blink {
+      0%, 100% {opacity: 1;}
+      49% {opacity: 0;}
+    }
+    .btn-back {
+      margin-top: 12px;
+      padding: 13px 37px;
+      background: linear-gradient(90deg,#fe2c55 0%,#25f4ee 100%);
+      color: #fff;
+      font-family: 'Montserrat', monospace;
+      font-size: 1.07rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      letter-spacing: 1.2px;
+      box-shadow: 0 3px 14px #25f4ee44;
+      cursor: pointer;
+      transition: background 0.22s, box-shadow 0.18s;
+      outline: none;
+      position: relative;
+      z-index: 2;
+    }
+    .btn-back:active { background: linear-gradient(90deg,#25f4ee 0%,#fe2c55 100%);}
+    .hacker-footer {
+      margin-top: 23px;
+      text-align: center;
+      font-size: 0.97rem;
+      color: #39ff14;
+      letter-spacing: 1.2px;
+      text-shadow: 0 0 7px #39ff1444;
+    }
+    .neon-bar {
+      width: 100vw;
+      height: 8px;
+      background: linear-gradient(90deg,#25f4ee,#fe2c55,#39ff14,#25f4ee 100%);
+      box-shadow: 0 0 22px #25f4ee, 0 0 18px #fe2c55;
+      position: absolute;
+      top: 0; left: 0; z-index: 2;
+      opacity: 0.73;
+      animation: barMove 3s infinite linear;
+    }
+    @keyframes barMove {
+      0% { filter: hue-rotate(0deg);}
+      100% { filter: hue-rotate(360deg);}
+    }
+    @media (max-width:600px){
+      .hacker-terminal{padding:18px 3vw 18px 3vw;}
+      .glitch{font-size:2.1rem;}
+      .hacker-footer{font-size:0.86rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+  <div class="neon-bar"></div>
+  <div class="hacker-terminal">
+    <div class="glitch">403<br>ACCESS DENIED</div>
+    <div class="hacker-code">[ SYSTEM SECURITY BREACH ]</div>
+    <div class="hacker-desc">
+      <span id="errorMsg">Anda tidak memiliki hak akses ke halaman ini.<br>Silakan kembali ke <b>login</b> atau hubungi admin.</span>
+    </div>
+    <div class="fake-terminal"><span id="typed"></span><span class="typed-cursor">_</span></div>
+    <button class="btn-back" onclick="window.location='login.html'"><i class="fas fa-arrow-left"></i> Kembali ke Login</button>
+    <div class="hacker-footer">SMK NU INDRAMAYU &copy; <span id="year"></span> | Designed by Ahdyourse</div>
+  </div>
+  <script>
+    // Tahun otomatis
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Typing animasi ala hacker terminal
+    const terminalLines = [
+      "root@hotspot:~$ sudo access --check",
+      "ACCESS DENIED: Insufficient privilege.",
+      "root@hotspot:~$ sudo connect --admin",
+      "ERROR 403: Unauthorized attempt detected.",
+      "root@hotspot:~$ _"
+    ];
+    let idx = 0, char = 0, typing = true, el = document.getElementById('typed');
+    function typeLine() {
+      if(idx >= terminalLines.length) return;
+      if(char < terminalLines[idx].length) {
+        el.innerHTML += terminalLines[idx][char++];
+        setTimeout(typeLine, Math.floor(15 + Math.random()*60));
+      } else {
+        el.innerHTML += "<br>";
+        idx++; char = 0;
+        setTimeout(typeLine, 400 + Math.random()*700);
+      }
+    }
+    setTimeout(typeLine, 800);
+
+    // Optional: random background glitch
+    setInterval(function(){
+      document.body.style.background = "linear-gradient(110deg,#070c1f 80%,rgba(39,255,20,0.07) "+(Math.random()*100)+"%)";
+    },2400);
+  </script>
+</body>
+</html>

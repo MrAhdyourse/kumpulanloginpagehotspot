@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logout Hotspot | SMK NU Indramayu</title>
+  <meta name="theme-color" content="#3588f8">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3588f8;
+      --secondary: #53c7f7;
+      --gradient: linear-gradient(120deg, #3588f8 0%, #53c7f7 100%);
+      --gradient-dark: linear-gradient(120deg, #232325 0%, #1a1a1a 100%);
+      --success: #25d366;
+      --danger: #fd4949;
+      --dark-bg: #191c23;
+      --light-bg: #f6f8fa;
+      --card-light: #fff;
+      --card-dark: #232325;
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--light-bg);
+      color: #232325;
+      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+      position: relative;
+    }
+    body.dark-mode {
+      background: var(--dark-bg);
+      color: #fafafa;
+    }
+    .bg-deco {
+      position: fixed; width: 100vw; height: 100vh; left: 0; top: 0;
+      z-index: 0; pointer-events: none;
+    }
+    .bg-deco .circle1, .bg-deco .circle2 {
+      position: absolute; border-radius: 50%; opacity: 0.32; filter: blur(2px);
+      transition: background 0.6s;
+    }
+    .bg-deco .circle1 {
+      width: 400px; height: 400px; left: -110px; top: -90px;
+      background: linear-gradient(120deg,#53c7f7 0%,#25d366 100%);
+    }
+    .bg-deco .circle2 {
+      width: 310px; height: 310px; right: -80px; bottom: -60px;
+      background: #ffe082;
+    }
+    body.dark-mode .bg-deco .circle1 {
+      background: linear-gradient(120deg,#1a1a1a 0%,#25d366 100%);
+      opacity: 0.44;
+    }
+    body.dark-mode .bg-deco .circle2 {
+      background: #ffe082; opacity: 0.18;
+    }
+    .logout-card {
+      max-width: 420px;
+      margin: 0 auto;
+      margin-top: 13vh;
+      background: var(--card-light);
+      border-radius: 33px;
+      box-shadow: 0 11px 38px rgba(53,136,248,0.14), 0 2px 8px rgba(40,80,160,0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 38px 36px 39px 36px;
+      position: relative;
+      z-index: 1;
+      animation: cardpop 0.7s cubic-bezier(.26,1.2,.41,1);
+      transition: background 0.5s;
+    }
+    @keyframes cardpop {
+      from { opacity: 0; transform: scale(0.93) translateY(60px);}
+      to   { opacity: 1; transform: scale(1) translateY(0);}
+    }
+    body.dark-mode .logout-card {
+      background: var(--card-dark);
+      box-shadow: 0 12px 52px rgba(40,80,160,0.19);
+    }
+    .logout-icon {
+      font-size: 3.1rem;
+      margin-bottom: 14px;
+      color: #25d366;
+      background: #eaffed;
+      border-radius: 50%;
+      width: 78px; height: 78px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 28px #25d36633, 0 2px 9px #53c7f733;
+      animation: bounceout 1.3s cubic-bezier(.52,1.7,.3,1.05) infinite alternate;
+    }
+    @keyframes bounceout {
+      from { transform: scale(1);}
+      to { transform: scale(1.09) translateY(-9px);}
+    }
+    .logout-title {
+      font-size: 1.29rem;
+      font-weight: 800;
+      color: #25d366;
+      text-align: center;
+      margin-bottom: 7px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #53c7f7;
+      user-select: none;
+    }
+    body.dark-mode .logout-title {
+      color: #ffe082;
+      text-shadow: 0 2px 8px #ffe08299;
+    }
+    .logout-desc {
+      font-size: 1.06rem;
+      color: #333;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 17px;
+      line-height: 1.5;
+      letter-spacing: 0.2px;
+    }
+    body.dark-mode .logout-desc { color: #ededed;}
+    .logout-btn {
+      background: linear-gradient(90deg,#53c7f7 0%,#25d366 100%);
+      color: #fff;
+      border: none;
+      border-radius: 13px;
+      padding: 13px 35px;
+      font-size: 1.09rem;
+      font-weight: 800;
+      margin-top: 7px;
+      box-shadow: 0 3px 18px #25d36633;
+      cursor: pointer;
+      transition: background 0.22s, transform 0.16s, color 0.18s;
+      display: flex; align-items: center; gap: 9px;
+      outline: none; border: 2px solid transparent;
+    }
+    .logout-btn:active { transform: scale(0.98);}
+    .logout-btn:hover,.logout-btn:focus {
+      background: linear-gradient(90deg,#25d366 0%,#53c7f7 100%);
+      border-color: #53c7f7;
+      color: #232325;
+    }
+    body.dark-mode .logout-btn {
+      background: linear-gradient(90deg,#ffe082 0%,#25d366 100%);
+      color: #232325;
+      border: 2px solid #ffe082;
+    }
+    .confetti {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 100;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 13px; height: 13px;
+      border-radius: 3px;
+      opacity: 0.82;
+      animation: confetti-fall 2.7s linear forwards;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(-30px) rotateZ(0deg);}
+      100% { transform: translateY(100vh) rotateZ(360deg);}
+    }
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%);
+      padding: 15px 30px; border-radius: 16px; background: #fff;
+      color: #232325; font-size: 1rem; font-weight: 700;
+      box-shadow: 0 6px 24px #25d36655;
+      z-index: 1101; animation: toast-in 0.6s;
+      opacity: 0.97; min-width: 180px; text-align: center;
+      letter-spacing: 0.5px;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateX(-50%) translateY(40px);}
+      to   { opacity: 0.97; transform: translateX(-50%) translateY(0);}
+    }
+    .toast-success { background: #25d366; color: #fff;}
+    /* Footer */
+    footer {
+      width: 100vw; position: fixed; bottom: 0; left: 0; z-index: 20;
+      background: none; text-align: center; pointer-events: none;
+    }
+    .footer-text {
+      font-size: 1.05rem; font-weight: 600; padding: 19px 0 10px 0;
+      color: #3b3b3b; text-align: center; letter-spacing: 1px;
+      text-shadow: 0 2px 8px #25d36622;
+    }
+    body.dark-mode .footer-text { color: #ffe082; text-shadow: 0 2px 8px #ffe08299;}
+    @media (max-width:600px){
+      .logout-card{padding:17px 4vw 22px 4vw;}
+      .logout-title{font-size:1.07rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-deco">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+  </div>
+  <div class="confetti" id="confetti"></div>
+  <div class="logout-card">
+    <div class="logout-icon"><i class="fas fa-check-circle"></i></div>
+    <div class="logout-title">Logout Berhasil!</div>
+    <div class="logout-desc">
+      Anda telah keluar dari hotspot <b>SMK NU Indramayu</b>.<br>
+      Terima kasih telah menggunakan layanan kami.<br>
+      <span style="font-size:0.98rem;color:#888;">Silakan login kembali jika ingin terhubung lagi.</span>
+    </div>
+    <button class="logout-btn" id="btnBackLogin">
+      <i class="fas fa-sign-in-alt"></i> Kembali ke Login
+    </button>
+  </div>
+  <footer>
+    <div class="footer-text">Copyright&copy;SMKNUIDM Designed by : Ahdyourse</div>
+  </footer>
+  <script>
+    // Confetti animasi
+    function confettiBurst() {
+      const colors = ['#25d366', '#3588f8', '#53c7f7', '#ffe082', '#fd4949'];
+      const confetti = document.getElementById('confetti');
+      for(let i=0;i<39;i++){
+        let el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = (Math.random()*97)+"vw";
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.animationDelay = (Math.random()*0.8)+"s";
+        confetti.appendChild(el);
+        setTimeout(()=>el.remove(), 3100);
+      }
+    }
+    confettiBurst();
+    setTimeout(confettiBurst, 1500);
+
+    // Toast notification
+    function showToast(msg,type){
+      if(document.querySelector('.toast'))document.querySelector('.toast').remove();
+      let toast=document.createElement('div');
+      toast.className='toast toast-'+(type||'success');
+      toast.textContent=msg;
+      document.body.appendChild(toast);
+      setTimeout(()=>{toast.style.opacity=0;setTimeout(()=>toast.remove(),400);},2200);
+    }
+    showToast("Anda berhasil logout.", "success");
+
+    // Dark mode toggle via keyboard shortcut (Ctrl+D)
+    document.addEventListener('keydown', function(e){
+      if(e.ctrlKey && e.key.toLowerCase()==='d'){
+        document.body.classList.toggle('dark-mode');
+      }
+    });
+
+    // Tombol back ke login
+    document.getElementById('btnBackLogin').onclick=function(){
+      window.location='login.html';
+    };
+  </script>
+</body>
+</html>

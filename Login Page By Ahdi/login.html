@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login Hotspot SMK NU Indramayu</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,600,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2eaa4f;
+      --secondary: #3cc79a;
+      --accent: #ffb74d;
+      --bg: #f6fafd;
+      --card: #fff;
+      --radius: 18px;
+      --shadow: 0 4px 32px rgba(46,170,79,0.08);
+      --shadow-card: 0 2px 12px rgba(46,170,79,0.09);
+      --transition: .25s cubic-bezier(.42,0,.58,1);
+      --text-main: #222;
+      --text-muted: #5c5c5c;
+      --danger: #e74c3c;
+      --success: #2ecc71;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      transition: background .5s, color .5s;
+    }
+    body.dark-mode {
+      background: #1a222b;
+      color: #eaeaea;
+    }
+    .bg-deco .circle1, .bg-deco .circle2 {
+      position: fixed;
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0.13;
+      pointer-events: none;
+    }
+    .bg-deco .circle1 {
+      width: 320px; height: 320px;
+      background: var(--primary);
+      top: -80px; left: -80px;
+    }
+    .bg-deco .circle2 {
+      width: 220px; height: 220px;
+      background: var(--secondary);
+      bottom: -60px; right: -60px;
+    }
+    .topbar {
+      display: flex; justify-content: flex-end; align-items: center;
+      padding: 12px 24px 0 24px;
+      gap: 16px;
+      z-index: 2;
+      position: relative;
+    }
+    .status-indicator {
+      padding: 4px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.97rem;
+      background: #eee;
+      color: #888;
+      border: 1.5px solid #ccc;
+      transition: background .2s, color .2s;
+    }
+    .status-indicator.online {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+      box-shadow: 0 1px 8px #2ecc7111;
+    }
+    .status-indicator.offline {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger);
+      box-shadow: 0 1px 8px #e74c3c11;
+    }
+    .theme-toggle {
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 38px; height: 38px;
+      font-size: 1.2rem;
+      color: var(--primary);
+      box-shadow: 0 2px 8px #2eaa4f11;
+      cursor: pointer;
+      transition: background .18s, color .18s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .theme-toggle:hover { background: var(--primary); color: #fff;}
+    .main-content {
+      min-height: 80vh;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1;
+      position: relative;
+    }
+    .login-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-card);
+      padding: 38px 32px 28px 32px;
+      max-width: 370px;
+      width: 100%;
+      margin: 40px 0 30px 0;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .logo-area {
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      margin-bottom: 10px;
+    }
+    .logo {
+      width: 68px; height: 68px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 12px #2eaa4f22;
+      background: #fff;
+    }
+    .school-name {
+      font-size: 1.13rem; font-weight: 800; color: var(--primary); letter-spacing: 1.2px;
+      text-align: center;
+    }
+    .login-title {
+      font-size: 1.18rem; font-weight: 700; color: var(--secondary); margin-bottom: 12px; margin-top: 6px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .login-switch {
+      display: flex; gap: 8px; margin-bottom: 18px;
+      width: 100%; justify-content: center;
+    }
+    .login-tab {
+      background: #f2f2f2;
+      border: none;
+      border-radius: 12px 12px 0 0;
+      font-weight: 700;
+      font-size: 1.01rem;
+      padding: 8px 22px;
+      cursor: pointer;
+      color: var(--primary);
+      transition: background .16s, color .16s;
+      outline: none;
+    }
+    .login-tab.active, .login-tab:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .login-forms {
+      width: 100%;
+      min-height: 180px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .login-form {
+      display: none;
+      flex-direction: column;
+      gap: 13px;
+      animation: fadeIn .4s;
+    }
+    .login-form.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .float-label-group {
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .float-label-group input {
+      width: 100%;
+      padding: 13px 40px 13px 13px;
+      border: 1.5px solid #d0d0d0;
+      border-radius: 10px;
+      font-size: 1.01rem;
+      background: #f8f8f8;
+      color: var(--text-main);
+      outline: none;
+      transition: border .18s;
+    }
+    .float-label-group input:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+    .float-label-group label {
+      position: absolute;
+      left: 13px;
+      top: 13px;
+      color: #aaa;
+      font-size: 1rem;
+      pointer-events: none;
+      transition: all .18s;
+      background: transparent;
+    }
+    .float-label-group input:focus + label,
+    .float-label-group input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 10px;
+      font-size: 0.85rem;
+      color: var(--primary);
+      background: #fff;
+      padding: 0 4px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 2;
+      transition: color .16s;
+    }
+    .toggle-password:hover { color: var(--primary);}
+    .btn-login {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 11px 0;
+      width: 100%;
+      cursor: pointer;
+      box-shadow: 0 2px 12px #2eaa4f22;
+      transition: background .19s;
+      margin-top: 8px;
+    }
+    .btn-login:hover { background: var(--secondary);}
+    .login-hint {
+      font-size: 0.97rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin: 10px 0 6px 0;
+      line-height: 1.5;
+    }
+    .login-methods {
+      display: flex; gap: 13px; justify-content: center; margin-top: 6px;
+    }
+    .icon-method {
+      font-size: 1.25rem;
+      color: var(--primary);
+      background: #f2f2f2;
+      border-radius: 50%;
+      padding: 8px;
+      box-shadow: 0 1px 8px #2eaa4f11;
+      cursor: pointer;
+      transition: background .16s, color .16s;
+    }
+    .icon-method:hover { background: var(--primary); color: #fff;}
+    .login-alert {
+      margin: 10px 0 0 0;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      display: none;
+    }
+    .login-alert.error {
+      background: #ffeaea;
+      color: var(--danger);
+      border: 1.5px solid var(--danger);
+      display: block;
+    }
+    .login-alert.success {
+      background: #eaffea;
+      color: var(--success);
+      border: 1.5px solid var(--success);
+      display: block;
+    }
+    footer {
+      margin-top: 38px;
+      padding: 19px 0 8px 0;
+      background: #eff8f2;
+      text-align: center;
+      color: #389e51;
+      font-weight: 700;
+      font-size: 1.01rem;
+      letter-spacing: 1px;
+      border-top-left-radius: 19px;
+      border-top-right-radius: 19px;
+      box-shadow: 0 -2px 18px #2eaa4f10;
+    }
+    @media (max-width:600px) {
+      .main-content {padding: 0 2vw;}
+      .login-card {padding: 18px 5vw 18px 5vw;}
+      .logo {width: 54px; height: 54px;}
+      .school-name {font-size: 1rem;}
+      .login-title {font-size: 1.01rem;}
+      .btn-login {font-size: 0.97rem;}
+    }
+    body.dark-mode {
+      background: #1a222b;
+      color: #eaeaea;
+    }
+    body.dark-mode .login-card {background: #232c36; color: #eaeaea;}
+    body.dark-mode .float-label-group input {background: #232c36; color: #eaeaea; border-color: #444;}
+    body.dark-mode .float-label-group input:focus {background: #232c36; border-color: var(--secondary);}
+    body.dark-mode .float-label-group label {color: #bbb;}
+    body.dark-mode .float-label-group input:focus + label,
+    body.dark-mode .float-label-group input:not(:placeholder-shown) + label {color: var(--secondary);}
+    body.dark-mode .login-tab {background: #232c36; color: #fff;}
+    body.dark-mode .login-tab.active, body.dark-mode .login-tab:hover {background: var(--secondary); color: #fff;}
+    body.dark-mode .icon-method {background: #232c36; color: var(--secondary);}
+    body.dark-mode .icon-method:hover {background: var(--secondary); color: #fff;}
+    body.dark-mode .btn-login {background: var(--secondary);}
+    body.dark-mode .btn-login:hover {background: var(--primary);}
+    body.dark-mode .login-alert.error {background: #3c1a1a; color: #ffb4b4; border-color: #ffb4b4;}
+    body.dark-mode .login-alert.success {background: #1a3c1a; color: #b4ffb4; border-color: #b4ffb4;}
+    body.dark-mode footer {background: #232c36; color: #3cc79a;}
+  </style>
+</head>
+<body>
+  <div class="bg-deco">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+  </div>
+  <div class="topbar">
+    <span id="netStatus" class="status-indicator offline">OFFLINE</span>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+  <div class="main-content">
+    <div class="login-card">
+      <div class="logo-area">
+        <img src="img/logo.png" alt="Logo SMK NU Indramayu" class="logo">
+        <div class="school-name">SMK NU INDRAMAYU</div>
+      </div>
+      <div class="login-title">Selamat Datang !</div>
+      <!-- Tab Switch Login Method -->
+      <div class="login-switch">
+        <button class="login-tab active" id="tab-siswa" type="button">Siswa</button>
+        <button class="login-tab" id="tab-guru" type="button">Guru</button>
+      </div>
+      <!-- Alert -->
+      <div id="loginAlert" class="login-alert"></div>
+      <!-- Login forms wrapper -->
+      <div class="login-forms">
+        <!-- Form Siswa (Username + Password) -->
+        <form id="loginFormSiswa" class="login-form active" method="post" action="$(link-login-only)">
+          <div class="float-label-group">
+            <input type="text" name="username" id="usernameInput" required autocomplete="username" placeholder=" " >
+            <label for="usernameInput">Masukkan Username Anda</label>
+          </div>
+          <div class="float-label-group">
+            <input type="password" name="password" id="passwordInputSiswa" required autocomplete="current-password" placeholder=" ">
+            <label for="passwordInputSiswa">Kata Sandi</label>
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Tampilkan Sandi"><i class="fas fa-eye"></i></button>
+          </div>
+          <input type="hidden" name="dst" value="$(link-orig)">
+          <input type="hidden" name="popup" value="true">
+          <button type="submit" class="btn-login">Login</button>
+        </form>
+        <!-- Form Guru (Username + Password) -->
+        <form id="loginFormGuru" class="login-form" method="post" action="$(link-login-only)">
+          <div class="float-label-group">
+            <input type="text" name="username" id="usernameInputGuru" required autocomplete="username" placeholder="Guru">
+            <label for="usernameInputGuru">Username Guru</label>
+          </div>
+          <div class="float-label-group">
+            <input type="password" name="password" id="passwordInputGuru" required autocomplete="current-password" placeholder=" ">
+            <label for="passwordInputGuru">Password Guru</label>
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Tampilkan Sandi"><i class="fas fa-eye"></i></button>
+          </div>
+          <input type="hidden" name="dst" value="$(link-orig)">
+          <input type="hidden" name="popup" value="true">
+          <button type="submit" class="btn-login">Login Guru</button>
+        </form>
+      </div>
+      <div class="login-hint">
+        Jika mengalami kendala, silakan hubungi tim IT.<br>Pilih bagaimana cara anda untuk login:
+      </div>
+      <div class="login-methods">
+        <span title="Login Voucher" class="icon-method"><i class="fas fa-ticket-alt"></i></span>
+        <span title="Login Member" class="icon-method"><i class="fas fa-user"></i></span>
+        <span title="Login QR" class="icon-method"><i class="fas fa-qrcode"></i></span>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-text">&copy;SMKNUIDM Designed by : Ahdyourse</div>
+  </footer>
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const isDark = () => document.body.classList.contains('dark-mode');
+    function setTheme(dark) {
+      if (dark) {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+      try { localStorage.setItem('theme-dark', dark ? '1' : '0'); } catch(e){}
+    }
+    themeToggle.addEventListener('click', () => setTheme(!isDark()));
+    try {
+      const saved = localStorage.getItem('theme-dark');
+      if (saved === '1') setTheme(true);
+      else setTheme(false);
+    } catch(e){}
+
+    // Tab switch login method (Siswa/Guru)
+    const tabSiswa = document.getElementById('tab-siswa');
+    const tabGuru = document.getElementById('tab-guru');
+    const formSiswa = document.getElementById('loginFormSiswa');
+    const formGuru = document.getElementById('loginFormGuru');
+    tabSiswa.addEventListener('click', () => {
+      tabSiswa.classList.add('active');
+      tabGuru.classList.remove('active');
+      formSiswa.classList.add('active');
+      formGuru.classList.remove('active');
+      document.getElementById('loginAlert').style.display = 'none';
+    });
+    tabGuru.addEventListener('click', () => {
+      tabGuru.classList.add('active');
+      tabSiswa.classList.remove('active');
+      formGuru.classList.add('active');
+      formSiswa.classList.remove('active');
+      document.getElementById('loginAlert').style.display = 'none';
+    });
+
+    // Password visibility toggle (untuk dua form)
+    function setupPasswordToggle(inputId) {
+      const passInput = document.getElementById(inputId);
+      const passToggle = passInput.parentNode.querySelector('.toggle-password');
+      passToggle.addEventListener('click', () => {
+        if (passInput.type === "password") {
+          passInput.type = "text";
+          passToggle.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        } else {
+          passInput.type = "password";
+          passToggle.innerHTML = '<i class="fas fa-eye"></i>';
+        }
+      });
+    }
+    setupPasswordToggle('passwordInputSiswa');
+    setupPasswordToggle('passwordInputGuru');
+
+    // Online/offline status
+    const statusElem = document.getElementById('netStatus');
+    function updateStatus() {
+      if (navigator.onLine) {
+        statusElem.textContent = 'ONLINE';
+        statusElem.classList.add('online');
+        statusElem.classList.remove('offline');
+      } else {
+        statusElem.textContent = 'OFFLINE';
+        statusElem.classList.add('offline');
+        statusElem.classList.remove('online');
+      }
+    }
+    window.addEventListener('online',  updateStatus);
+    window.addEventListener('offline', updateStatus);
+    updateStatus();
+
+    // Prevent freeze: submit form as normal POST (biarkan Mikrotik yang handle)
+    document.getElementById('loginFormSiswa').addEventListener('submit', function(e) {
+      document.getElementById('loginAlert').style.display = 'none';
+      // Tidak perlu preventDefault, biarkan submit ke Mikrotik
+    });
+    document.getElementById('loginFormGuru').addEventListener('submit', function(e) {
+      document.getElementById('loginAlert').style.display = 'none';
+      // Tidak perlu preventDefault, biarkan submit ke Mikrotik
+    });
+
+    // Fitur: Enter untuk submit, fokus otomatis
+    document.getElementById('usernameInput').focus();
+    document.getElementById('usernameInput').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') document.getElementById('passwordInputSiswa').focus();
+    });
+    document.getElementById('usernameInputGuru').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') document.getElementById('passwordInputGuru').focus();
+    });
+
+    // Fitur: QR login (dummy, bisa dikembangkan)
+    document.querySelector('.icon-method[title="Login QR"]').addEventListener('click', function(){
+      const alert = document.getElementById('loginAlert');
+      alert.className = 'login-alert error';
+      alert.innerHTML = 'Fitur login QR belum tersedia.';
+      alert.style.display = 'block';
+    });
+    // Fitur: Voucher/member info
+    document.querySelector('.icon-method[title="Login Voucher"]').addEventListener('click', function(){
+      const alert = document.getElementById('loginAlert');
+      alert.className = 'login-alert success';
+      alert.innerHTML = 'Silakan masukkan username voucher Anda di form login.';
+      alert.style.display = 'block';
+    });
+    document.querySelector('.icon-method[title="Login Member"]').addEventListener('click', function(){
+      const alert = document.getElementById('loginAlert');
+      alert.className = 'login-alert success';
+      alert.innerHTML = 'Silakan login menggunakan akun member Anda.';
+      alert.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
