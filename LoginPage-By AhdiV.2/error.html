@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>HOTSPOT ERROR - ACCESS DENIED</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Orbitron:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #0f2027;
+      font-family: 'Share Tech Mono', monospace;
+      color: #00ffea;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.3;
+    }
+    .error-container {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto;
+      margin-top: 60px;
+      max-width: 480px;
+      background: rgba(10,20,30,0.97);
+      border-radius: 18px;
+      box-shadow: 0 0 30px #00ffea55, 0 0 80px #ff00c822;
+      border: 2px solid #ff003c;
+      padding: 38px 28px 32px 28px;
+      text-align: center;
+      animation: fadeIn 1.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .deepweb-glitch {
+      font-family: 'Orbitron', 'Share Tech Mono', monospace;
+      font-size: 2.1em;
+      color: #ff003c;
+      text-shadow: 0 0 8px #ff003c, 0 0 20px #00ffea;
+      letter-spacing: 2px;
+      animation: glitch 1.2s infinite linear alternate-reverse;
+      user-select: none;
+      margin-bottom: 8px;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 #ff003c, -2px 0 #00ffea; }
+      20% { text-shadow: -2px 0 #ff003c, 2px 0 #00ffea; }
+      40% { text-shadow: 2px 2px #ff003c, -2px -2px #00ffea; }
+      60% { text-shadow: -2px -2px #ff003c, 2px 2px #00ffea; }
+      80% { text-shadow: 0 2px #ff003c, 0 -2px #00ffea; }
+      100% { text-shadow: 2px 0 #ff003c, -2px 0 #00ffea; }
+    }
+    .ascii-art {
+      color: #00ffea;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.1em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px #00ffea;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+    .error-message {
+      color: #ff003c;
+      font-size: 1.2em;
+      font-family: 'Share Tech Mono', monospace;
+      margin: 18px 0 10px 0;
+      background: rgba(255,0,60,0.08);
+      border-radius: 8px;
+      padding: 12px 0;
+      box-shadow: 0 0 10px #ff003c33;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px #ff003c;
+      border: 1.5px solid #ff003c;
+      animation: pulse 1.5s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px #ff003c33; }
+      100% { box-shadow: 0 0 30px #ff003c99; }
+    }
+    .error-detail {
+      color: #fff;
+      font-size: 1.1em;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px #00ffea;
+      font-family: 'Share Tech Mono', monospace;
+      background: rgba(0,255,234,0.06);
+      border-radius: 8px;
+      padding: 10px 0;
+      box-shadow: 0 0 10px #00ffea33;
+    }
+    .deepweb-tips {
+      color: #00ffea;
+      font-size: 1em;
+      margin: 18px 0 10px 0;
+      font-family: 'Share Tech Mono', monospace;
+      background: rgba(0,255,234,0.06);
+      border-radius: 8px;
+      padding: 10px 0;
+      box-shadow: 0 0 10px #00ffea33;
+      text-align: left;
+    }
+    .deepweb-tips ul {
+      margin: 0 0 0 18px;
+      padding: 0;
+    }
+    .deepweb-tips li {
+      margin-bottom: 6px;
+      color: #ff00c8;
+      font-size: 1em;
+      letter-spacing: 1px;
+    }
+    .back-btn {
+      background: linear-gradient(90deg, #00ffea 0%, #ff00c8 100%);
+      color: #181818 !important;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1em;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea55;
+      border-radius: 8px;
+      margin-top: 18px;
+      margin-bottom: 10px;
+      padding: 10px 32px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .back-btn:hover {
+      background: linear-gradient(90deg, #ff00c8 0%, #00ffea 100%);
+      color: #fff !important;
+      box-shadow: 0 0 20px #ff00c8, 0 0 40px #00ffea99;
+    }
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #00ffea;
+      font-size: 1em;
+      font-family: 'Share Tech Mono', monospace;
+      text-shadow: 0 0 8px #00ffea;
+    }
+    .footer .designer {
+      color: #ff00c8;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1em;
+      margin-top: 8px;
+      display: block;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .error-container {
+        padding: 10px 2vw 20px 2vw;
+        margin-top: 20px;
+      }
+      .deepweb-glitch {
+        font-size: 1.2em;
+      }
+      .ascii-art {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+<div class="error-container">
+  <div class="deepweb-glitch">
+    <i class="material-icons left" style="font-size:1.2em;">warning</i>
+    ACCESS DENIED
+  </div>
+  <div class="ascii-art">
+    <pre>
+      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+      ███▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀███
+      ███  ████  ████  ████  ████  ████  ████  ████  ████  ████  ████  ███
+      ███  ████  ████  ████  ████  ████  ████  ████  ████  ████  ████  ███
+      ███▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄███
+    </pre>
+  </div>
+  <div class="error-message">
+    HOTSPOT ERROR: <span id="error-detail">$(error)</span>
+  </div>
+  <div class="error-detail">
+    <span class="material-icons" style="vertical-align:middle;color:#ff003c;">lock</span>
+    Akses ke jaringan hotspot ditolak.<br>
+    Kemungkinan penyebab:<br>
+    - Username/password salah<br>
+    - Akun diblokir/expired<br>
+    - Perangkat tidak terdaftar<br>
+    - Koneksi internet bermasalah<br>
+    - Sistem mendeteksi aktivitas mencurigakan
+  </div>
+  <div class="deepweb-tips">
+    <b>Tips Deepweb Security:</b>
+    <ul>
+      <li>Gunakan password yang kuat dan unik.</li>
+      <li>Jangan pernah bagikan akun Anda ke siapapun.</li>
+      <li>Pastikan perangkat Anda bebas dari malware.</li>
+      <li>Laporkan aktivitas mencurigakan ke admin.</li>
+      <li>Gunakan jaringan resmi sekolah untuk akses hotspot.</li>
+    </ul>
+  </div>
+  <button class="back-btn" onclick="window.location.href='$(link-login)'">
+    <i class="material-icons left" style="font-size:1.1em;">arrow_back</i> Kembali ke Login
+  </button>
+  <div style="margin-top:18px;">
+    <span style="color:#ff00c8;">Jika masalah berlanjut, hubungi admin hotspot.</span>
+  </div>
+</div>
+<div class="footer">
+  <span>HOTSPOT SMK NU INDRAMAYU &copy; 2025</span>
+  <span class="designer">Designed by : Ahdyourse</span>
+</div>
+<script>
+  // Matrix background
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  let cols = Math.floor(w / 18) + 1;
+  let ypos = Array(cols).fill(0);
+  function matrix() {
+    ctx.fillStyle = 'rgba(15,32,39,0.18)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#00ffea';
+    ctx.font = '18px monospace';
+    ypos.forEach((y, ind) => {
+      const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(text, ind * 18, y);
+      if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+      else ypos[ind] = y + 18;
+    });
+  }
+  setInterval(matrix, 50);
+  window.addEventListener('resize', () => {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+    cols = Math.floor(w / 18) + 1;
+    ypos = Array(cols).fill(0);
+  });
+
+  // Glitch effect for error text
+  function glitchText() {
+    const el = document.getElementById('error-detail');
+    if (!el) return;
+    let orig = el.innerText;
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+    let glitch = '';
+    for (let i = 0; i < orig.length; i++) {
+      glitch += Math.random() > 0.85 ? chars[Math.floor(Math.random()*chars.length)] : orig[i];
+    }
+    el.innerText = glitch;
+    setTimeout(() => { el.innerText = orig; }, 120);
+  }
+  setInterval(glitchText, 700);
+
+  // Warn if user tries to leave
+  window.onbeforeunload = function() {
+    return "Keluar dari halaman error?";
+  };
+</script>
+</body>
+</html>

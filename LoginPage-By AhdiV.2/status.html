@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Status Hotspot SMK NU INDRAMAYU</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  $(if refresh-timeout)
+  <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+  $(endif)
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Orbitron:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #0f2027;
+      font-family: 'Share Tech Mono', monospace;
+      color: #00ffea;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    .status-container {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto;
+      margin-top: 60px;
+      max-width: 420px;
+      background: rgba(10,20,30,0.97);
+      border-radius: 18px;
+      box-shadow: 0 0 30px #00ffea55, 0 0 80px #00ffea22;
+      border: 2px solid #00ffea;
+      padding: 32px 28px 24px 28px;
+      text-align: center;
+      animation: fadeIn 1.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .hacker-glitch {
+      font-family: 'Orbitron', 'Share Tech Mono', monospace;
+      font-size: 2em;
+      color: #00ffea;
+      text-shadow: 0 0 8px #00ffea, 0 0 20px #00ffea;
+      letter-spacing: 2px;
+      animation: glitch 1.2s infinite linear alternate-reverse;
+      user-select: none;
+      margin-bottom: 8px;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 #00ffea, -2px 0 #ff00c8; }
+      20% { text-shadow: -2px 0 #00ffea, 2px 0 #ff00c8; }
+      40% { text-shadow: 2px 2px #00ffea, -2px -2px #ff00c8; }
+      60% { text-shadow: -2px -2px #00ffea, 2px 2px #ff00c8; }
+      80% { text-shadow: 0 2px #00ffea, 0 -2px #ff00c8; }
+      100% { text-shadow: 2px 0 #00ffea, -2px 0 #ff00c8; }
+    }
+    .status-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 18px 0;
+      background: rgba(0,255,234,0.06);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #00ffea33;
+    }
+    .status-table td {
+      font-size: 1.05em;
+      padding: 10px 8px;
+      border-bottom: 1px solid #00ffea33;
+      color: #00ffea;
+      text-align: left;
+    }
+    .status-table tr:last-child td {
+      border-bottom: none;
+    }
+    .status-table td.label {
+      color: #ff00c8;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      width: 45%;
+      letter-spacing: 1px;
+    }
+    .status-table td.value {
+      color: #00ffea;
+      font-family: 'Share Tech Mono', monospace;
+      width: 55%;
+    }
+    .status-welcome {
+      font-size: 1.15em;
+      color: #fff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 8px #00ffea;
+      font-family: 'Orbitron', monospace;
+    }
+    .status-adv {
+      color: #ff003c;
+      font-size: 1.1em;
+      margin: 10px 0 10px 0;
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+      background: rgba(255,0,60,0.08);
+      border-radius: 8px;
+      padding: 8px 0;
+      box-shadow: 0 0 10px #ff003c33;
+    }
+    .status-btn {
+      background: linear-gradient(90deg, #00ffea 0%, #ff00c8 100%);
+      color: #181818 !important;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1em;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea55;
+      border-radius: 8px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 10px 32px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .status-btn:hover {
+      background: linear-gradient(90deg, #ff00c8 0%, #00ffea 100%);
+      color: #fff !important;
+      box-shadow: 0 0 20px #ff00c8, 0 0 40px #00ffea99;
+    }
+    .clock-wib {
+      color: #00ffea;
+      font-size: 1.2em;
+      font-family: 'Share Tech Mono', monospace;
+      margin: 10px 0 0 0;
+      text-align: center;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #00ffea;
+      user-select: none;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      background: #222;
+      border-radius: 8px;
+      height: 18px;
+      margin: 10px 0 18px 0;
+      box-shadow: 0 0 8px #00ffea33;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00ffea 0%, #ff00c8 100%);
+      border-radius: 8px;
+      width: 0%;
+      transition: width 0.7s cubic-bezier(.4,2,.6,1);
+      box-shadow: 0 0 10px #00ffea99;
+    }
+    .quotes-box {
+      margin: 24px 0 0 0;
+      padding: 16px 20px 16px 60px;
+      border-left: 4px solid #00ffea;
+      background: rgba(0,255,234,0.06);
+      color: #00ffea;
+      font-size: 1.1em;
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 60px;
+      position: relative;
+      box-shadow: 0 0 10px #00ffea33;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 8px;
+    }
+    .quotes-box:before {
+      content: "“";
+      font-size: 2.5em;
+      position: absolute;
+      left: 18px;
+      top: 10px;
+      color: #00ffea88;
+      font-family: 'Orbitron', monospace;
+      z-index: 1;
+    }
+    .quotes-author {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.95em;
+      color: #ff00c8;
+      font-family: 'Orbitron', monospace;
+      text-align: right;
+      letter-spacing: 1px;
+    }
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #00ffea;
+      font-size: 1em;
+      font-family: 'Share Tech Mono', monospace;
+      text-shadow: 0 0 8px #00ffea;
+    }
+    .footer .designer {
+      color: #ff00c8;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1em;
+      margin-top: 8px;
+      display: block;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .status-container {
+        padding: 10px 2vw 20px 2vw;
+        margin-top: 20px;
+      }
+      .hacker-glitch {
+        font-size: 1.2em;
+      }
+      .quotes-box {
+        font-size: 1em;
+        padding-left: 35px;
+      }
+      .quotes-box:before {
+        left: 5px;
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+<div class="status-container">
+  <div class="hacker-glitch">
+    <i class="material-icons left" style="font-size:1.2em;">security</i>
+    HOTSPOT STATUS
+  </div>
+  <div class="status-welcome">
+    $(if login-by == 'trial')
+      Selamat datang, <b>Trial User</b>!
+    $(elif login-by != 'mac')
+      Selamat datang, <b>$(username)</b>!
+    $(endif)
+  </div>
+  <table class="status-table">
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">dns</i> IP Address</td>
+      <td class="value">$(ip)</td>
+    </tr>
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">arrow_upward</i> Upload</td>
+      <td class="value">$(bytes-in-nice)</td>
+    </tr>
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">arrow_downward</i> Download</td>
+      <td class="value">$(bytes-out-nice)</td>
+    </tr>
+    $(if session-time-left)
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">timer</i> Terhubung / Sisa</td>
+      <td class="value">$(uptime) / $(session-time-left)</td>
+    </tr>
+    $(else)
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">timer</i> Terhubung</td>
+      <td class="value">$(uptime)</td>
+    </tr>
+    $(endif)
+    $(if blocked == 'yes')
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">warning</i> Status</td>
+      <td class="value status-adv">
+        <a href="$(link-advert)" target="hotspot_advert" style="color:#ff003c;text-decoration:underline;">advertisement</a> required
+      </td>
+    </tr>
+    $(elif refresh-timeout)
+    <tr>
+      <td class="label"><i class="material-icons" style="font-size:1em;vertical-align:middle;">refresh</i> Status Refresh</td>
+      <td class="value">$(refresh-timeout)</td>
+    </tr>
+    $(endif)
+  </table>
+  <!-- Progress Bar Uptime -->
+  <div class="progress-bar-bg">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+  <!-- Jam WIB -->
+  <div class="clock-wib" id="jam-wib"></div>
+  <!-- Quotes Pendidikan -->
+  <div class="quotes-box" id="quotes-box">
+    <span id="quotes-text"></span>
+    <span class="quotes-author" id="quotes-author"></span>
+  </div>
+  <!-- Tombol Logout -->
+  $(if login-by-mac != 'yes')
+  <form action="$(link-logout)" name="logout" onSubmit="return openLogout()" style="margin-top:18px;">
+    <button type="submit" class="status-btn">
+      <i class="material-icons left" style="font-size:1.1em;">logout</i> LOG OUT
+    </button>
+  </form>
+  $(endif)
+</div>
+<div class="footer">
+  <span>Akses internet sehat & aman untuk siswa, guru, dan staff SMK NU Indramayu.</span>
+  <span class="designer">Designed by : Ahdyourse</span>
+</div>
+<script>
+  // Matrix background
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  let cols = Math.floor(w / 18) + 1;
+  let ypos = Array(cols).fill(0);
+  function matrix() {
+    ctx.fillStyle = 'rgba(15,32,39,0.18)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#00ffea';
+    ctx.font = '18px monospace';
+    ypos.forEach((y, ind) => {
+      const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(text, ind * 18, y);
+      if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+      else ypos[ind] = y + 18;
+    });
+  }
+  setInterval(matrix, 50);
+  window.addEventListener('resize', () => {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+    cols = Math.floor(w / 18) + 1;
+    ypos = Array(cols).fill(0);
+  });
+
+  // Quotes Pendidikan
+  const quotes = [
+    {text: "Pendidikan adalah senjata paling ampuh untuk mengubah dunia.", author: "Nelson Mandela"},
+    {text: "Belajar tanpa berpikir itu tidaklah berguna, tapi berpikir tanpa belajar itu sangatlah berbahaya.", author: "Confucius"},
+    {text: "Pendidikan bukanlah persiapan untuk hidup, pendidikan adalah hidup itu sendiri.", author: "John Dewey"},
+    {text: "Orang yang berhenti belajar akan menjadi pemilik masa lalu. Orang yang terus belajar akan menjadi pemilik masa depan.", author: "Mario Teguh"},
+    {text: "Ilmu tanpa amal adalah kegilaan, dan amal tanpa ilmu adalah kesia-siaan.", author: "Al-Ghazali"},
+    {text: "Pendidikan adalah kunci untuk membuka dunia, paspor menuju kebebasan.", author: "Oprah Winfrey"},
+    {text: "Jika kamu ingin sukses, belajarlah dari kegagalan.", author: "Bill Gates"},
+    {text: "Pendidikan adalah investasi terbaik untuk masa depan.", author: "Benjamin Franklin"},
+    {text: "Guru membuka pintu, tetapi kamu harus masuk sendiri.", author: "Pepatah Cina"},
+    {text: "Setiap orang adalah guru, setiap rumah adalah sekolah.", author: "Ki Hajar Dewantara"},
+    {text: "Jangan pernah berhenti belajar, karena hidup tak pernah berhenti mengajarkan.", author: "Anonim"},
+    {text: "Pendidikan adalah tiket ke masa depan. Hari esok untuk orang-orang yang mempersiapkan dirinya hari ini.", author: "Malcolm X"},
+    {text: "Belajar adalah proses seumur hidup.", author: "Anonim"},
+    {text: "Kesuksesan adalah hasil dari persiapan, kerja keras, dan belajar dari kegagalan.", author: "Colin Powell"},
+    {text: "Pendidikan bukan hanya tentang pergi ke sekolah dan mendapatkan gelar. Ini juga tentang memperluas pengetahuan dan menyerap kebenaran tentang kehidupan.", author: "Shakuntala Devi"},
+    {text: "Ilmu adalah cahaya, kebodohan adalah kegelapan.", author: "Pepatah Arab"},
+    {text: "Pendidikan adalah fondasi bagi kemajuan bangsa.", author: "BJ Habibie"},
+    {text: "Orang bijak belajar ketika mereka bisa. Orang bodoh belajar ketika mereka terpaksa.", author: "Arthur Wellesley"},
+    {text: "Belajar adalah harta yang akan mengikuti pemiliknya ke mana pun.", author: "Pepatah Cina"},
+    {text: "Pendidikan adalah perjalanan, bukan tujuan akhir.", author: "Anonim"},
+    {text: "Semakin banyak kamu membaca, semakin banyak hal yang akan kamu ketahui.", author: "Dr. Seuss"},
+    {text: "Pendidikan adalah jembatan menuju masa depan yang lebih baik.", author: "Anonim"},
+    {text: "Belajar hari ini untuk memimpin esok.", author: "Anonim"},
+    {text: "Pendidikan adalah cahaya yang menuntun dalam kegelapan.", author: "Anonim"},
+    {text: "Tidak ada kata terlambat untuk belajar.", author: "Pepatah Inggris"},
+    {text: "Pendidikan adalah hak setiap anak bangsa.", author: "Anonim"},
+    {text: "Belajar bukan untuk sekolah, tapi untuk hidup.", author: "Seneca"},
+    {text: "Pendidikan adalah seni membantu menemukan potensi diri.", author: "Anonim"},
+    {text: "Ilmu adalah warisan yang tak akan pernah habis.", author: "Anonim"},
+    {text: "Pendidikan adalah pondasi utama dalam membangun karakter.", author: "Anonim"}
+  ];
+  let quoteIndex = Math.floor(Math.random() * quotes.length);
+  function showQuote() {
+    const q = quotes[quoteIndex];
+    document.getElementById('quotes-text').innerText = q.text;
+    document.getElementById('quotes-author').innerText = '- ' + q.author;
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+  }
+  setInterval(showQuote, 15000);
+  showQuote();
+
+  // Jam WIB
+  function updateJamWIB() {
+    let now = new Date();
+    let wib = new Date(now.getTime() + (7 * 60 - now.getTimezoneOffset()) * 60000);
+    let jam = wib.getHours().toString().padStart(2, '0');
+    let menit = wib.getMinutes().toString().padStart(2, '0');
+    let detik = wib.getSeconds().toString().padStart(2, '0');
+    let tampil = jam + ':' + menit + ':' + detik + ' WIB';
+    document.getElementById('jam-wib').innerText = tampil;
+  }
+  setInterval(updateJamWIB, 1000);
+  updateJamWIB();
+
+  // Progress Bar Uptime
+  function setProgressBar() {
+    // Ambil uptime dan session-time-left dari HTML (jika ada)
+    let uptimeStr = '$(uptime)';
+    let sessionStr = '$(session-time-left)';
+    function parseTime(str) {
+      if (!str) return 0;
+      let s = 0;
+      let arr = str.split(' ');
+      arr.forEach(part => {
+        if (part.includes('d')) s += parseInt(part) * 86400;
+        else if (part.includes('h')) s += parseInt(part) * 3600;
+        else if (part.includes('m')) s += parseInt(part) * 60;
+        else if (part.includes('s')) s += parseInt(part);
+      });
+      return s;
+    }
+    let uptime = parseTime(uptimeStr);
+    let session = parseTime(sessionStr);
+    let percent = 0;
+    if (session > 0) {
+      percent = Math.min(100, Math.round((uptime / (uptime + session)) * 100));
+    } else if (uptime > 0) {
+      percent = 100;
+    }
+    document.getElementById('progress-bar').style.width = percent + '%';
+  }
+  setProgressBar();
+
+  // Logout popup
+  function openLogout() {
+    if (window.name != 'hotspot_status') return true;
+    open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+    window.close();
+    return false;
+  }
+
+  // Advert popup
+  /* $(if advert-pending == 'yes') */
+  var popup = '';
+  function focusAdvert() {
+    if (window.focus) popup.focus();
+  }
+  function openAdvert() {
+    popup = open('$(link-advert)', 'hotspot_advert', '');
+    setTimeout("focusAdvert()", 1000);
+  }
+  window.onload = openAdvert;
+  /* $(endif) */
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Connecting... &gt; redirect</title>
+  <meta http-equiv="refresh" content="4; url=$(link-redirect)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="expires" content="-1">
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:700|Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style type="text/css">
+    body {
+      color: #00ffea;
+      font-size: 14px;
+      font-family: 'Share Tech Mono', Verdana, Arial, sans-serif;
+      background: #0f2027;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .center-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      z-index: 2;
+    }
+    .futuristic-icon {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 30px;
+      filter: drop-shadow(0 0 30px #00ffea88);
+      animation: spin 2.5s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotateY(0deg);}
+      100% { transform: rotateY(360deg);}
+    }
+    .glow-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5em;
+      color: #00ffea;
+      text-shadow: 0 0 10px #00ffea, 0 0 30px #00ffea99;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      animation: glitch 1.2s infinite linear alternate-reverse;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 #00ffea, -2px 0 #ff00c8; }
+      20% { text-shadow: -2px 0 #00ffea, 2px 0 #ff00c8; }
+      40% { text-shadow: 2px 2px #00ffea, -2px -2px #ff00c8; }
+      60% { text-shadow: -2px -2px #00ffea, 2px 2px #ff00c8; }
+      80% { text-shadow: 0 2px #00ffea, 0 -2px #ff00c8; }
+      100% { text-shadow: 2px 0 #00ffea, -2px 0 #ff00c8; }
+    }
+    .desc {
+      color: #fff;
+      font-size: 1.1em;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px #00ffea;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .loading-bar-bg {
+      width: 180px;
+      height: 12px;
+      background: #222;
+      border-radius: 8px;
+      margin: 0 auto 18px auto;
+      box-shadow: 0 0 8px #00ffea33;
+      overflow: hidden;
+    }
+    .loading-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00ffea 0%, #ff00c8 100%);
+      border-radius: 8px;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(.4,2,.6,1);
+      box-shadow: 0 0 10px #00ffea99;
+    }
+    .footer {
+      position: absolute;
+      bottom: 18px;
+      width: 100vw;
+      text-align: center;
+      color: #00ffea;
+      font-size: 1em;
+      font-family: 'Share Tech Mono', monospace;
+      text-shadow: 0 0 8px #00ffea;
+      z-index: 3;
+    }
+    .footer .designer {
+      color: #ff00c8;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1em;
+      margin-top: 8px;
+      display: block;
+    }
+  </style>
+  <script>
+    function startClock() {
+      if ('$(popup)' === 'true') {
+        open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290');
+      }
+      setTimeout(function(){
+        location.href = '$(link-redirect)';
+      }, 4000);
+      // Animate loading bar
+      setTimeout(function(){
+        document.getElementById('loading-bar').style.width = '100%';
+      }, 100);
+    }
+  </script>
+</head>
+<body onload="startClock()">
+<canvas id="matrix-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.3;"></canvas>
+<div class="center-box">
+  <!-- SVG Futuristik Ikon -->
+  <svg class="futuristic-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="glow" cx="60" cy="60" r="60" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#00ffea" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#00ffea" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="neon" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#00ffea"/>
+        <stop offset="1" stop-color="#ff00c8"/>
+      </linearGradient>
+    </defs>
+    <circle cx="60" cy="60" r="54" stroke="url(#neon)" stroke-width="6" fill="url(#glow)" />
+    <polygon points="60,25 90,60 60,95 30,60" stroke="url(#neon)" stroke-width="5" fill="none" />
+    <circle cx="60" cy="60" r="18" stroke="url(#neon)" stroke-width="3" fill="none" />
+    <circle cx="60" cy="60" r="7" fill="#00ffea" stroke="#ff00c8" stroke-width="2"/>
+    <polyline points="60,42 60,60 75,60" stroke="#ff00c8" stroke-width="3" fill="none" />
+  </svg>
+  <div class="glow-text">Connecting to Hotspot...</div>
+  <div class="desc">Anda akan diarahkan ke halaman berikutnya.<br>Mohon tunggu sebentar.</div>
+  <div class="loading-bar-bg">
+    <div class="loading-bar" id="loading-bar"></div>
+  </div>
+</div>
+<div class="footer">
+  <span>HOTSPOT SMK NU INDRAMAYU</span>
+  <span class="designer">Designed by : Ahdyourse</span>
+</div>
+<script>
+  // Matrix background
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  let cols = Math.floor(w / 18) + 1;
+  let ypos = Array(cols).fill(0);
+  function matrix() {
+    ctx.fillStyle = 'rgba(15,32,39,0.18)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#00ffea';
+    ctx.font = '18px monospace';
+    ypos.forEach((y, ind) => {
+      const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(text, ind * 18, y);
+      if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+      else ypos[ind] = y + 18;
+    });
+  }
+  setInterval(matrix, 50);
+  window.addEventListener('resize', () => {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+    cols = Math.floor(w / 18) + 1;
+    ypos = Array(cols).fill(0);
+  });
+</script>
+</body>
+</html>

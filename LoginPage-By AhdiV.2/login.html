@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>HOTSPOT SMK NU INDRAMAYU - LOGIN</title>
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Orbitron:700&display=swap" rel="stylesheet">
+  <link href="css/materialize.min.css" rel="stylesheet">
+  <link href="css/font.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* Matrix background */
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Share Tech Mono', monospace;
+      background: #0f2027;
+      overflow-x: hidden;
+    }
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .hacker-glitch {
+      font-family: 'Orbitron', 'Share Tech Mono', monospace;
+      font-size: 2.2em;
+      color: #00ffea;
+      text-shadow: 0 0 8px #00ffea, 0 0 20px #00ffea;
+      letter-spacing: 2px;
+      animation: glitch 1.2s infinite linear alternate-reverse;
+      user-select: none;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 #00ffea, -2px 0 #ff00c8; }
+      20% { text-shadow: -2px 0 #00ffea, 2px 0 #ff00c8; }
+      40% { text-shadow: 2px 2px #00ffea, -2px -2px #ff00c8; }
+      60% { text-shadow: -2px -2px #00ffea, 2px 2px #ff00c8; }
+      80% { text-shadow: 0 2px #00ffea, 0 -2px #ff00c8; }
+      100% { text-shadow: 2px 0 #00ffea, -2px 0 #ff00c8; }
+    }
+    .neon-border {
+      border: 2px solid #00ffea;
+      box-shadow: 0 0 20px #00ffea, 0 0 40px #00ffea33;
+      border-radius: 12px;
+      background: rgba(10,20,30,0.95);
+      padding: 30px 20px 20px 20px;
+      margin-top: 30px;
+      position: relative;
+      z-index: 2;
+    }
+    .tabs .tab a {
+      color: #00ffea !important;
+      font-weight: bold;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+    }
+    .tabs .tab a.active {
+      background: #00ffea !important;
+      color: #181818 !important;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 2px 10px #00ffea99;
+    }
+    .input-field input[type=text], .input-field input[type=password] {
+      color: #00ffea !important;
+      border-bottom: 1.5px solid #00ffea !important;
+      background: transparent !important;
+      font-size: 1.1em;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .input-field label {
+      color: #00ffea !important;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .input-field .material-icons.prefix {
+      color: #00ffea !important;
+    }
+    .btn-hacker {
+      background: linear-gradient(90deg, #00ffea 0%, #00ffea 100%);
+      color: #181818 !important;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1em;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea55;
+      border-radius: 8px;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-hacker:hover {
+      background: linear-gradient(90deg, #ff00c8 0%, #00ffea 100%);
+      color: #fff !important;
+      box-shadow: 0 0 20px #ff00c8, 0 0 40px #00ffea99;
+    }
+    .toggle-mode-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 1.5em;
+      color: #00ffea;
+      transition: color 0.2s;
+    }
+    .toggle-mode-btn:hover {
+      color: #ff00c8;
+    }
+    .show-hide-pass {
+      position: absolute;
+      right: 10px;
+      top: 18px;
+      cursor: pointer;
+      color: #00ffea;
+      font-size: 1.2em;
+      z-index: 3;
+      transition: color 0.2s;
+    }
+    .show-hide-pass:hover {
+      color: #ff00c8;
+    }
+    .clock-wib {
+      color: #00ffea;
+      font-size: 1.2em;
+      font-family: 'Share Tech Mono', monospace;
+      margin-top: 10px;
+      text-align: center;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #00ffea;
+      user-select: none;
+    }
+    .notif-error {
+      background: #ff003c;
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 10px 0 0 0;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1em;
+      text-align: center;
+      box-shadow: 0 0 10px #ff003c99;
+      display: none;
+    }
+    .quotes-box {
+      margin: 30px 0 0 0;
+      padding: 18px 20px 18px 60px;
+      border-left: 4px solid #00ffea;
+      background: rgba(0,255,234,0.06);
+      color: #00ffea;
+      font-size: 1.1em;
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 60px;
+      position: relative;
+      box-shadow: 0 0 10px #00ffea33;
+      transition: background 0.3s, color 0.3s;
+    }
+    .quotes-box:before {
+      content: "“";
+      font-size: 2.5em;
+      position: absolute;
+      left: 18px;
+      top: 10px;
+      color: #00ffea88;
+      font-family: 'Orbitron', monospace;
+      z-index: 1;
+    }
+    .quotes-author {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.95em;
+      color: #ff00c8;
+      font-family: 'Orbitron', monospace;
+      text-align: right;
+      letter-spacing: 1px;
+    }
+    /* Light mode */
+    body.light-mode {
+      background: #f5f5f5 !important;
+      color: #222 !important;
+    }
+    body.light-mode .neon-border {
+      background: #fff !important;
+      border-color: #00bcd4 !important;
+      box-shadow: 0 0 20px #00bcd4, 0 0 40px #00bcd433;
+    }
+    body.light-mode .hacker-glitch {
+      color: #00bcd4;
+      text-shadow: 0 0 8px #00bcd4, 0 0 20px #00bcd4;
+    }
+    body.light-mode .tabs .tab a,
+    body.light-mode .input-field input[type=text],
+    body.light-mode .input-field input[type=password],
+    body.light-mode .input-field label,
+    body.light-mode .input-field .material-icons.prefix,
+    body.light-mode .clock-wib,
+    body.light-mode .quotes-box {
+      color: #00bcd4 !important;
+    }
+    body.light-mode .tabs .tab a.active {
+      background: #00bcd4 !important;
+      color: #fff !important;
+    }
+    body.light-mode .btn-hacker {
+      background: linear-gradient(90deg, #00bcd4 0%, #00bcd4 100%);
+      color: #fff !important;
+      box-shadow: 0 0 10px #00bcd4, 0 0 20px #00bcd455;
+    }
+    body.light-mode .btn-hacker:hover {
+      background: linear-gradient(90deg, #ff00c8 0%, #00bcd4 100%);
+      color: #fff !important;
+      box-shadow: 0 0 20px #ff00c8, 0 0 40px #00bcd499;
+    }
+    body.light-mode .show-hide-pass {
+      color: #00bcd4;
+    }
+    body.light-mode .show-hide-pass:hover {
+      color: #ff00c8;
+    }
+    body.light-mode .notif-error {
+      background: #ff003c;
+      color: #fff;
+    }
+    body.light-mode .quotes-author {
+      color: #ff00c8 !important;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .neon-border {
+        padding: 10px 2vw 20px 2vw;
+      }
+      .hacker-glitch {
+        font-size: 1.2em;
+      }
+      .tabs .tab a {
+        font-size: 0.9em;
+      }
+      .quotes-box {
+        font-size: 1em;
+        padding-left: 35px;
+      }
+      .quotes-box:before {
+        left: 5px;
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+<nav class="z-depth-2" style="background:transparent;box-shadow:none;">
+  <div class="nav-wrapper container" style="position:relative;">
+    <span class="hacker-glitch" style="font-size:1.3em;">
+      <i class="material-icons left" style="font-size:1.2em;">security</i>
+      HOTSPOT SMK NU INDRAMAYU
+    </span>
+    <ul class="right hide-on-med-and-down" style="margin-top:10px;">
+      <li>
+        <button class="toggle-mode-btn" id="toggle-mode" title="Ganti Mode Terang/Gelap">
+          <i class="material-icons" id="icon-mode">brightness_4</i>
+        </button>
+      </li>
+      <li>
+        <a href="#modal1" class="modal-trigger" style="color:#00ffea;"><i class="material-icons left">info</i>Tentang</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="section no-pad-bot" id="index-banner" style="min-height:80vh;">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 m8 offset-m2 l6 offset-l3 neon-border z-depth-5">
+        <div class="center-align" style="margin-bottom:10px;">
+          <span class="hacker-glitch" style="font-size:2em;">LOGIN HOTSPOT</span>
+          <div style="font-size:1em;color:#00ffea;text-shadow:0 0 5px #00ffea;">
+            <span id="subtitle-glitch">SMK NU INDRAMAYU</span>
+          </div>
+        </div>
+        <ul class="tabs" style="margin-bottom:20px;">
+          <li class="tab col s6"><a class="active" href="#tab-siswa" id="tab-link-siswa">SISWA</a></li>
+          <li class="tab col s6"><a href="#tab-guru" id="tab-link-guru">GURU/STAFF</a></li>
+        </ul>
+        <!-- Notifikasi error -->
+        <div id="notif-error" class="notif-error"></div>
+        <!-- Form Login Siswa -->
+        <div id="tab-siswa">
+          <form class="login-form" name="login" action="$(link-login-only)" method="post"
+            $(if chap-id) onSubmit="return doLogin()" $(endif)>
+            <input type="hidden" name="dst" value="smkn2kotatasik.sch.id" />
+            <input type="hidden" name="popup" value="true" />
+            <div class="input-field" style="margin-top:10px;">
+              <i class="material-icons prefix">perm_identity</i>
+              <input id="username" type="text" name="username" autocomplete="username" required>
+              <label for="username">Username</label>
+            </div>
+            <div class="input-field" style="position:relative;">
+              <i class="material-icons prefix">lock</i>
+              <input id="password" type="password" name="password" autocomplete="current-password" required>
+              <label for="password">Password</label>
+              <span class="material-icons show-hide-pass" id="show-hide-pass-siswa" tabindex="0">visibility</span>
+            </div>
+            <div class="center-align">
+              <button type="submit" class="btn btn-hacker waves-effect waves-light">LOGIN SISWA</button>
+            </div>
+            <div class="clock-wib" id="jam-wib"></div>
+            <div class="center-align" style="margin-top:10px;">
+              <a href="#modal2" class="modal-trigger" style="color:#00ffea;text-decoration:underline;">Butuh bantuan?</a>
+            </div>
+          </form>
+        </div>
+        <!-- Form Login Guru/Staff -->
+        <div id="tab-guru" style="display:none;">
+          <form class="login-form" name="login_guru" action="$(link-login-only)" method="post"
+            $(if chap-id) onSubmit="return doLoginGuru()" $(endif)>
+            <input type="hidden" name="dst" value="smkn2kotatasik.sch.id" />
+            <input type="hidden" name="popup" value="true" />
+            <input type="hidden" name="username" value="guru" />
+            <div class="input-field" style="margin-top:10px;">
+              <i class="material-icons prefix">lock</i>
+              <input id="password_guru" type="password" name="password" autocomplete="current-password" required>
+              <label for="password_guru">Password Guru/Staff</label>
+              <span class="material-icons show-hide-pass" id="show-hide-pass-guru" tabindex="0">visibility</span>
+            </div>
+            <div class="center-align">
+              <button type="submit" class="btn btn-hacker waves-effect waves-light" style="background:linear-gradient(90deg,#ff00c8,#00ffea);">LOGIN GURU/STAFF</button>
+            </div>
+            <div class="clock-wib" id="jam-wib-guru"></div>
+            <div class="center-align" style="margin-top:10px;">
+              <a href="#modal2" class="modal-trigger" style="color:#00ffea;text-decoration:underline;">Butuh bantuan?</a>
+            </div>
+          </form>
+        </div>
+        <!-- Quotes Pendidikan -->
+        <div class="quotes-box" id="quotes-box">
+          <span id="quotes-text"></span>
+          <span class="quotes-author" id="quotes-author"></span>
+        </div>
+        <div class="center-align" style="margin-top:20px;">
+          <span style="color:#00ffea;font-size:0.9em;">&copy; 2025 HOTSPOT SMK NU INDRAMAYU</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="page-footer z-depth-5" style="background:transparent;border:none;box-shadow:none;">
+  <div class="container">
+    <div class="row">
+      <div class="col l12 s12 center-align">
+        <span style="color:#00ffea;font-family:'Share Tech Mono',monospace;">Akses internet sehat & aman untuk siswa, guru, dan staff SMK NU Indramayu.</span>
+        <br>
+        <span style="color:#ff00c8;font-family:'Orbitron',monospace;font-size:1.1em;">Designed by : Ahdyourse</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Modal Tentang -->
+<div id="modal1" class="modal" style="background:rgba(10,20,30,0.97);color:#00ffea;">
+  <div class="modal-content">
+    <h4 class="hacker-glitch">Tentang Hotspot</h4>
+    <p>Hotspot ini disediakan oleh <b>SMK NU INDRAMAYU</b> untuk mendukung proses belajar mengajar dan administrasi sekolah.  
+    <br>Konfigurasi & desain oleh <b>UPJ TKJ SMK NU INDRAMAYU</b>.</p>
+    <ul>
+      <li><i class="material-icons left">business</i>Kampus: Jl. Raya Lohbener Lama No. 178, Indramayu</li>
+      <li><i class="material-icons left">phone</i>081395411676 (Whatsapp only)</li>
+      <li><i class="material-icons left">email</i><a href="mailto:tkj@smknuindramayu.sch.id" style="color:#00ffea;">tkj@smknuindramayu.sch.id</a></li>
+    </ul>
+  </div>
+  <div class="modal-footer" style="background:transparent;">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat" style="color:#00ffea;"><i class="material-icons left">close</i>Tutup</a>
+  </div>
+</div>
+<!-- Modal Bantuan -->
+<div id="modal2" class="modal" style="background:rgba(10,20,30,0.97);color:#00ffea;">
+  <div class="modal-content">
+    <h4 class="hacker-glitch">Bantuan & Ketentuan</h4>
+    <ul>
+      <li><i class="material-icons left">info</i>Gunakan akun sesuai hak akses Anda (Siswa atau Guru/Staff).</li>
+      <li><i class="material-icons left">security</i>Jaga kerahasiaan password Anda.</li>
+      <li><i class="material-icons left">wifi</i>Akses hanya untuk jaringan resmi sekolah.</li>
+      <li><i class="material-icons left">error</i>Jika gagal login, pastikan data benar atau hubungi admin.</li>
+      <li><i class="material-icons left">mail</i>Email bantuan: <b>ahdiworkingdream@gmail.com</b></li>
+    </ul>
+  </div>
+  <div class="modal-footer" style="background:transparent;">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat" style="color:#00ffea;"><i class="material-icons left">close</i>Tutup</a>
+  </div>
+</div>
+<!-- Mikrotik CHAP hidden form -->
+$(if chap-id)
+<form name="sendin" action="$(link-login-only)" method="post" style="display:none;">
+  <input type="hidden" name="username" />
+  <input type="hidden" name="password" />
+  <input type="hidden" name="dst" value="$(link-orig)" />
+  <input type="hidden" name="popup" value="true" />
+</form>
+<script type="text/javascript" src="/md5.js"></script>
+<script type="text/javascript">
+  function doLogin() {
+    document.sendin.username.value = document.login.username.value;
+    document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+    document.sendin.submit();
+    return false;
+  }
+  function doLoginGuru() {
+    document.sendin.username.value = "guru";
+    document.sendin.password.value = hexMD5('$(chap-id)' + document.login_guru.password.value + '$(chap-challenge)');
+    document.sendin.submit();
+    return false;
+  }
+</script>
+$(endif)
+<script src="js/jquery.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script>
+  // Matrix background
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  let cols = Math.floor(w / 18) + 1;
+  let ypos = Array(cols).fill(0);
+  function matrix() {
+    ctx.fillStyle = 'rgba(15,32,39,0.18)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#00ffea';
+    ctx.font = '18px monospace';
+    ypos.forEach((y, ind) => {
+      const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(text, ind * 18, y);
+      if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+      else ypos[ind] = y + 18;
+    });
+  }
+  setInterval(matrix, 50);
+  window.addEventListener('resize', () => {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+    cols = Math.floor(w / 18) + 1;
+    ypos = Array(cols).fill(0);
+  });
+
+  // Quotes Pendidikan
+  const quotes = [
+    {text: "Pendidikan adalah senjata paling ampuh untuk mengubah dunia.", author: "Nelson Mandela"},
+    {text: "Belajar tanpa berpikir itu tidaklah berguna, tapi berpikir tanpa belajar itu sangatlah berbahaya.", author: "Confucius"},
+    {text: "Pendidikan bukanlah persiapan untuk hidup, pendidikan adalah hidup itu sendiri.", author: "John Dewey"},
+    {text: "Orang yang berhenti belajar akan menjadi pemilik masa lalu. Orang yang terus belajar akan menjadi pemilik masa depan.", author: "Mario Teguh"},
+    {text: "Ilmu tanpa amal adalah kegilaan, dan amal tanpa ilmu adalah kesia-siaan.", author: "Al-Ghazali"},
+    {text: "Pendidikan adalah kunci untuk membuka dunia, paspor menuju kebebasan.", author: "Oprah Winfrey"},
+    {text: "Jika kamu ingin sukses, belajarlah dari kegagalan.", author: "Bill Gates"},
+    {text: "Pendidikan adalah investasi terbaik untuk masa depan.", author: "Benjamin Franklin"},
+    {text: "Guru membuka pintu, tetapi kamu harus masuk sendiri.", author: "Pepatah Cina"},
+    {text: "Setiap orang adalah guru, setiap rumah adalah sekolah.", author: "Ki Hajar Dewantara"},
+    {text: "Jangan pernah berhenti belajar, karena hidup tak pernah berhenti mengajarkan.", author: "Anonim"},
+    {text: "Pendidikan adalah tiket ke masa depan. Hari esok untuk orang-orang yang mempersiapkan dirinya hari ini.", author: "Malcolm X"},
+    {text: "Belajar adalah proses seumur hidup.", author: "Anonim"},
+    {text: "Kesuksesan adalah hasil dari persiapan, kerja keras, dan belajar dari kegagalan.", author: "Colin Powell"},
+    {text: "Pendidikan bukan hanya tentang pergi ke sekolah dan mendapatkan gelar. Ini juga tentang memperluas pengetahuan dan menyerap kebenaran tentang kehidupan.", author: "Shakuntala Devi"},
+    {text: "Ilmu adalah cahaya, kebodohan adalah kegelapan.", author: "Pepatah Arab"},
+    {text: "Pendidikan adalah fondasi bagi kemajuan bangsa.", author: "BJ Habibie"},
+    {text: "Orang bijak belajar ketika mereka bisa. Orang bodoh belajar ketika mereka terpaksa.", author: "Arthur Wellesley"},
+    {text: "Belajar adalah harta yang akan mengikuti pemiliknya ke mana pun.", author: "Pepatah Cina"},
+    {text: "Pendidikan adalah perjalanan, bukan tujuan akhir.", author: "Anonim"},
+    {text: "Semakin banyak kamu membaca, semakin banyak hal yang akan kamu ketahui.", author: "Dr. Seuss"},
+    {text: "Pendidikan adalah jembatan menuju masa depan yang lebih baik.", author: "Anonim"},
+    {text: "Belajar hari ini untuk memimpin esok.", author: "Anonim"},
+    {text: "Pendidikan adalah cahaya yang menuntun dalam kegelapan.", author: "Anonim"},
+    {text: "Tidak ada kata terlambat untuk belajar.", author: "Pepatah Inggris"},
+    {text: "Pendidikan adalah hak setiap anak bangsa.", author: "Anonim"},
+    {text: "Belajar bukan untuk sekolah, tapi untuk hidup.", author: "Seneca"},
+    {text: "Pendidikan adalah seni membantu menemukan potensi diri.", author: "Anonim"},
+    {text: "Ilmu adalah warisan yang tak akan pernah habis.", author: "Anonim"},
+    {text: "Pendidikan adalah pondasi utama dalam membangun karakter.", author: "Anonim"}
+  ];
+  let quoteIndex = Math.floor(Math.random() * quotes.length);
+  function showQuote() {
+    $('#quotes-text').fadeOut(300, function(){
+      $(this).text(quotes[quoteIndex].text).fadeIn(500);
+    });
+    $('#quotes-author').fadeOut(300, function(){
+      $(this).text('- ' + quotes[quoteIndex].author).fadeIn(500);
+    });
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+  }
+  setInterval(showQuote, 15000);
+  $(document).ready(function() {
+    showQuote();
+  });
+
+  // Tabs logic
+  $(document).ready(function() {
+    $('.modal-trigger').leanModal();
+    $('#tab-link-siswa').click(function(e){
+      e.preventDefault();
+      $('#tab-siswa').show();
+      $('#tab-guru').hide();
+      $('#tab-link-siswa').addClass('active');
+      $('#tab-link-guru').removeClass('active');
+      setTimeout(function(){ $('#username').focus(); }, 200);
+    });
+    $('#tab-link-guru').click(function(e){
+      e.preventDefault();
+      $('#tab-siswa').hide();
+      $('#tab-guru').show();
+      $('#tab-link-guru').addClass('active');
+      $('#tab-link-siswa').removeClass('active');
+      setTimeout(function(){ $('#password_guru').focus(); }, 200);
+    });
+    $('#tab-siswa').show();
+    $('#tab-guru').hide();
+
+    // Mode toggle
+    $('#toggle-mode').click(function(e){
+      e.preventDefault();
+      $('body').toggleClass('light-mode');
+      if($('body').hasClass('light-mode')){
+        $('#icon-mode').text('brightness_7');
+        localStorage.setItem('mode', 'light');
+      } else {
+        $('#icon-mode').text('brightness_4');
+        localStorage.setItem('mode', 'dark');
+      }
+    });
+    // Set mode sesuai localStorage
+    if(localStorage.getItem('mode') === 'light'){
+      $('body').addClass('light-mode');
+      $('#icon-mode').text('brightness_7');
+    }
+
+    // Jam WIB
+    function updateJamWIB() {
+      let now = new Date();
+      let wib = new Date(now.getTime() + (7 * 60 - now.getTimezoneOffset()) * 60000);
+      let jam = wib.getHours().toString().padStart(2, '0');
+      let menit = wib.getMinutes().toString().padStart(2, '0');
+      let detik = wib.getSeconds().toString().padStart(2, '0');
+      let tampil = jam + ':' + menit + ':' + detik + ' WIB';
+      $('#jam-wib').text(tampil);
+      $('#jam-wib-guru').text(tampil);
+    }
+    setInterval(updateJamWIB, 1000);
+    updateJamWIB();
+
+    // Show/hide password siswa
+    $('#show-hide-pass-siswa').on('click keydown', function(e){
+      if(e.type === 'click' || e.key === 'Enter' || e.key === ' '){
+        let input = $('#password');
+        if(input.attr('type') === 'password'){
+          input.attr('type','text');
+          $(this).text('visibility_off');
+        } else {
+          input.attr('type','password');
+          $(this).text('visibility');
+        }
+      }
+    });
+    // Show/hide password guru
+    $('#show-hide-pass-guru').on('click keydown', function(e){
+      if(e.type === 'click' || e.key === 'Enter' || e.key === ' '){
+        let input = $('#password_guru');
+        if(input.attr('type') === 'password'){
+          input.attr('type','text');
+          $(this).text('visibility_off');
+        } else {
+          input.attr('type','password');
+          $(this).text('visibility');
+        }
+      }
+    });
+
+    // Error notification dari Mikrotik
+    <!--
+    $(if error)
+      $('#notif-error').text('$(error)').fadeIn();
+    $(endif)
+    -->
+  });
+</script>
+</body>
+</html>
